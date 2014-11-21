@@ -1,17 +1,34 @@
-template <class T>
-struct Node
-{
-    pair<T, T> range;
-    vector<int> shardID;
-    set<Node> sub;
+struct Cmp {
+    bool operator() (const Node& node1, const Node& node2) const {
+        return node1.range < node2.range;
+    }
 };
 
-class RoutingTree
-{
+template <class T>
+class Node {
 public:
-    RoutingTree(){};
-    Node *search(pair<T, T> range){};
+    Node(Range range){};
+    vector<int> GetShards(){};
+    void SetShards(vector<int> shards){};
+    static bool canMerge(Node *node1, Node *node2){};
+    void insert(Node *node){};
+    void merge(Node *node1, Node *node2){};
+private:
+    Range range;
+    vector<int> shardID;
+    set<Node, Cmp> subRange;
+};
+
+class RoutingTree {
+public:
+    RoutingTree(Node *root){};
+    Node *search(Range range){};
 private:
     Node *root;
-    void insert(pair<T, T> range){};
+    Range splitRange(Range range){};
+    void insert(Range range){};
+};
+
+class AdaptiveRouting {
+    map<Field *field, RoutingTree *tree> fieldToTreeMap;
 };
