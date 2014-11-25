@@ -1,3 +1,6 @@
+#ifndef RANGE_H
+#define RANGE_H
+
 #include <iostream>
 #include <cstdlib>
 template <class T >
@@ -12,28 +15,43 @@ Functions includes:
 	search()
 	merge()?
 */
+enum range_cmp {IS_CONTAINED_BY, CONTAINS, LEFT_OVERLAP, RIGHT_OVERLAP, AT_LEFT, AT_RIGHT};
 
-class range : public std::pair<T, T>{
-public:
-	range(T low = 0, T high = 0){
-		this->first = low; 
-		this->second = high;
-	}
+	class Range : public std::pair<T, T>{
+	public:
+		Range(T low = 0, T high = 0){
+			this->first = low; 
+			this->second = high;
+		}
 
-	bool contain(range *a){
-		return (this->first <= a->first) && (this->second >= a->second);
-	}
+		bool isContainedBy(Range *a){
+			return (this->first >= a->first) && (this->second <= a->second);
+		}
 
-	bool leftOverlap(range *a){
-		return (this->first >= a->first && this->first <= a->second);
-	}
+		bool contains(Range *a){
+			return (this->first <= a->first) && (this->second >= a->second);
+		}
 
-	bool rightOverlap(range *a){
-		return (this->second >= a->first && this->second <= a->second);
-	}
+		bool leftOverlap(Range *a){
+			return (this->first >= a->first && this->first <= a->second);
+		}
 
-	bool overlap(range *a){
-		return leftOverlap(a) || rightOverlap(a) || contain(a);
-	}
-};
+		bool rightOverlap(Range *a){
+			return (this->second >= a->first && this->second <= a->second);
+		}
 
+		bool overlap(Range *a){
+			return leftOverlap(a) || rightOverlap(a) || contains(a);
+		}
+
+	// No Overlap
+		bool atLeft(Range *a){
+			return (this->second < a->first);
+		}
+
+		bool atRight(Range *a){
+			return (this->first > a->second);
+		}
+	};
+
+#endif
