@@ -1,3 +1,10 @@
+#ifndef ART_H
+#define ART_H
+
+#include <iostream>
+#include <vector>
+#include "Range.h"
+
 struct Cmp {
     bool operator() (const Node& node1, const Node& node2) const {
         return node1.range < node2.range;
@@ -13,6 +20,7 @@ public:
     static bool canMerge(Node *node1, Node *node2){};
     void insert(Node *node){};
     void merge(Node *node1, Node *node2){};
+
 private:
     Range range;
     vector<int> shardID;
@@ -23,6 +31,7 @@ class RoutingTree {
 public:
     RoutingTree(Node *root){};
     Node *search(Range range){};
+
 private:
     Node *root;
     Range splitRange(Range range){};
@@ -32,3 +41,5 @@ private:
 class AdaptiveRouting {
     map<Field *field, RoutingTree *tree> fieldToTreeMap;
 };
+
+#endif
