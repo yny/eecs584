@@ -8,14 +8,14 @@
 
 class RoutingTree {
 public:
-    RoutingTree(Node *root){};
-    vector<Node *> getShardIDs(Range range, Node *parentNode){}; // -> return result node
+    RoutingTree(Node *root);
+    vector<Node *> getShardIDs(Range range, Node *parentNode); // -> return result node
 
 private:
     Node *root;
-    Node *search(Range range){}; // -> return pointer of Parent Node
-    vector<Range> splitRange(Range range, Node *parentNode){};
-    vector<Node *> insert(vector<Range> subRanges, Node *parentNode){};
+    Node *search(Range range); // -> return pointer of Parent Node
+    vector<Range> splitRange(Range range, Node *parentNode);
+    vector<Node *> insert(vector<Range> subRanges, Node *parentNode);
 };
 
 class AdaptiveRouting {
