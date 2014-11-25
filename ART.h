@@ -7,7 +7,10 @@
 
 struct Cmp {
     bool operator() (const Node& node1, const Node& node2) const {
-        return node1.range < node2.range;
+        if node1.getRange().overLap(node2.getRange){
+            throw "ERROR: Two ranges have overlap. Failed to compare!\n";
+        }
+        return node1.getRange().atLeft(node2.getRange());
     }
 };
 
@@ -15,8 +18,9 @@ template <class T>
 class Node {
 public:
     Node(Range range){};
-    vector<int> GetShards(){};
-    void SetShards(vector<int> shards){};
+    Range getRange(){};
+    vector<int> getShards(){};
+    void setShards(vector<int> shards){};
     static bool canMerge(Node *node1, Node *node2){};
     void insert(Node *node){};
     void merge(Node *node1, Node *node2){};
@@ -24,7 +28,7 @@ public:
 private:
     Range range;
     vector<int> shardID;
-    set<Node, Cmp> subRange;
+    set<Node *, Cmp> subRange;
 };
 
 class RoutingTree {
