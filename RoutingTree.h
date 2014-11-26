@@ -16,6 +16,7 @@ private:
     Node *search(Range range); // -> return pointer of Parent Node
     vector<Range> splitRange(Range range, Node *parentNode);
     vector<Node *> insert(vector<Range> subRanges, Node *parentNode);
+    int checkRange(Range range, Node *node, Node *subNode);
 };
 
 class AdaptiveRouting {
