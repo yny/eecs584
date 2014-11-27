@@ -3,32 +3,36 @@
 
 #include <iostream>
 #include <vector>
+#include <set>
 #include "Range.h"
 
-struct Cmp {
+using namespace std;
+
+/*struct Cmp {
     bool operator() (const Node& node1, const Node& node2) const {
-        if node1.getRange().overLap(node2.getRange){
+        if (node1.getRange().overLap(node2.getRange)){
             throw "ERROR: Two ranges have overlap. Failed to compare!\n";
         }
         return node1.getRange().atLeft(node2.getRange());
     }
-};
+};*/
 
 template <class T>
 class Node {
 public:
-    Node(Range range){};
-    Range getRange(){};
-    vector<int> getShards(){};
-    void setShards(vector<int> shards){};
-    static bool canMerge(Node *node1, Node *node2){};
-    void insert(Node *node){};
-    void merge(Node *node1, Node *node2){};
+    Node(Range<T> range);
+    Range<T> getRange();
+    vector<int> getShards();
+    set<Node *> getChildNodes();
+    void setShards(vector<int> shards);
+    static bool canMerge(Node *node1, Node *node2);
+    void insert(Node *node);
+    void merge(Node *node1, Node *node2);
 
 private:
-    Range range;
+    Range<T> range;
     vector<int> shardID;
-    set<Node *, Cmp> subRange;
+    set<Node *> childNodes;
 };
 
 #endif

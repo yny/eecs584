@@ -15,11 +15,14 @@ Functions includes:
 	search()
 	merge()?
 */
-enum range_cmp {IS_CONTAINED_BY, CONTAINS, LEFT_OVERLAP, RIGHT_OVERLAP, AT_LEFT, AT_RIGHT};
+//enum range_cmp {IS_CONTAINED_BY, CONTAINS, LEFT_OVERLAP, RIGHT_OVERLAP, AT_LEFT, AT_RIGHT};
 
 	class Range : public std::pair<T, T>{
 	public:
 		Range(T low = 0, T high = 0){
+			if (low  > high){
+				throw "ERROR: Lower bound is larger than upper bound!\n";
+			}
 			this->first = low; 
 			this->second = high;
 		}

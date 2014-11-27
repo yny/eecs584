@@ -1,33 +1,37 @@
 #include "Node.h"
 
 /* Node Class */
+template <class T>
+Node<T>::Node(Range<T> range){
+    this->range = range;
+}
 
-Node::Node(Range range){
-    this.range = range;
-};
+template <class T>
+Range<T> Node<T>::getRange(){
 
-Range Node::getRange(){
+}
 
-};
+template <class T>
+vector<int> Node<T>::getShards(){
 
-vector<int> Node::getShards(){
+}
 
-};
+template <class T>
+void Node<T>::setShards(vector<int> shards){
 
-void Node::setShards(vector<int> shards){
+}
 
-};
+template <class T>
+bool Node<T>::canMerge(Node *node1, Node *node2){
 
-static bool Node::canMerge(Node *node1, Node *node2){
+}
 
-};
+template <class T>
+void Node<T>::insert(Node *node){
 
-void Node::insert(Node *node){
+}
 
-};
+template <class T>
+void Node<T>::merge(Node<T> *node1, Node<T> *node2){
 
-void Node::merge(Node *node1, Node *node2){
-
-};
-
-#endif
+}

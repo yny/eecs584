@@ -1,27 +1,28 @@
 #include "RoutingTree.h"
 
 /* Routing Tree */
-
-RoutingTree::RoutingTree(Node *root){
-	this.root = new Node(root->range);
+template <class T >
+RoutingTree<T>::RoutingTree(Node<T> *root){
+	this->root = new Node<T>(root->range);
 }
 
-vector<Node *> RoutingTree::getShardIDs(Range range, Node *parentNode){
+template <class T >
+vector<Node<T> *> RoutingTree<T>::getShardIDs(Range<T> range, Node<T> *parentNode){
 	//range not contained in the root
 	if (!range.overlap(root->range)) {
 		//create a new root
-		Range newRange(range.first, range.second);
-		Node *newRoot = new Node(newRange);
+		Range<T> newRange(range.first, range.second);
+		Node<T> *newRoot = new Node<T>(newRange);
 		newRoot->subRange.insert(root);
 		root = newRoot;
 		
 		parentNode = root;
-		return insert(vector<Range>(1, range), root);
+		return insert(vector<Range<T> >(1, range), root);
 	}
 	
-	Node *node = root;
+	Node<T> *node = root;
 	while (1) {
-		Node *subNode = NULL;
+		Node<T> *subNode = NULL;
 		switch (checkRange(range, node, subNode))
 		{
 		//contained in a subRange
@@ -31,11 +32,11 @@ vector<Node *> RoutingTree::getShardIDs(Range range, Node *parentNode){
 		//exactly the same as a subRange
 		case '1':
 			parentNode = node;
-			return vector<Node>(1, node);
+			return vector<Node<T> >(1, node);
 		//no overlap with an subRange
 		case '2':
 			parentNode = node;
-			return insert(vector<Range>(1, range), node);
+			return insert(vector<Range<T> >(1, range), node);
 		//overlap with some subRanges
 		default:
 			parentNode = node;
@@ -44,23 +45,56 @@ vector<Node *> RoutingTree::getShardIDs(Range range, Node *parentNode){
 	}
 } // -> return result node
 
-Node *RoutingTree::search(Range range){
+template <class T >
+Node<T> *RoutingTree<T>::search(Range<T> range){
 	
 } // -> return pointer of Parent Node
 
-vector<Range> RoutingTree::splitRange(Range range, Node *parentNode){
+template <class T >
+vector<Range<T> > RoutingTree<T>::splitRange(Range<T> range, Node<T> *parentNode){
+	set<Node<T> *> childNodes = parentNode->getChildNodes();
+	set<Node<T> *>::iterator it = childNodes.begin();
+	vector<Range<T> > result;
+    try{
+	for (; it < childNodes.end(); it++){
+		Range<T> curRange = (*it)->getRange;
+		if (range.atLeft(curRange)){
+			result.push(range);
+			break;
+		}
+		else if (range.leftOverlap(curRange)){
+			Range<T> tempResult(range.first, curRange.first); // overlap at the margin
+			result.push(tempResult);
+			break;  
+		}
+		else if (range.contain(curRange)){
+			Range<T> tempResult(range.first, curRange.first); // overlap at the margin
+			result.push(tempResult);
+			range.first = curRange.second;
+		}
+		else{ // right overlap or at right
+			range.first = curRange.second;
+		}
+	}
+
+    }
+	catch (string e){
+		cerr<<e<<endl;
+	}
+	return result;
+}
+
+template <class T >
+vector<Node<T> *> RoutingTree<T>::insert(vector<Range<T> > subRanges, Node<T> *parentNode){
 	
 }
 
-vector<Node *> RoutingTree::insert(vector<Range> subRanges, Node *parentNode){
-	
-}
-
-int checkRange(Range range, Node *node, Node *subNode) {
+template <class T >
+int checkRange(Range<T> range, Node<T> *node, Node<T> *subNode) {
 	if (node->subRange.size() == 0) {
 		return 2;
 	}
-	set<Node *, Cmp>::iterator iter;
+	set<Node<T> *>::iterator iter;
 	for (iter = node.subRange.begin(); iter != node.subRange.end() && !range.atRight((*iter)->range); iter++) {
 		if (range.overlap((*iter)->Range)) {
 			if (range.contain((*iter)->range) && range.isContainedBy((*iter)->range)) {

@@ -6,21 +6,22 @@
 #include "Range.h"
 #include "Node.h"
 
+template <class T>
 class RoutingTree {
 public:
-    RoutingTree(Node *root);
-    vector<Node *> getShardIDs(Range range, Node *parentNode); // -> return result node
+    RoutingTree(Node<T> *root);
+    vector<Node<T> *> getShardIDs(Range<T> range, Node<T> *parentNode); // -> return result node
 
 private:
-    Node *root;
-    Node *search(Range range); // -> return pointer of Parent Node
-    vector<Range> splitRange(Range range, Node *parentNode);
-    vector<Node *> insert(vector<Range> subRanges, Node *parentNode);
-    int checkRange(Range range, Node *node, Node *subNode);
+    Node<T> *root;
+    Node<T> *search(Range<T> range); // -> return pointer of Parent Node
+    vector<Range<T> > splitRange(Range<T> range, Node<T> *parentNode);
+    vector<Node<T> *> insert(vector<Range<T> > subRanges, Node<T> *parentNode);
+    int checkRange(Range<T> range, Node<T> *node, Node<T> *subNode);
 };
 
 class AdaptiveRouting {
-    map<Field *field, RoutingTree *tree> fieldToTreeMap;
+    //map<Field *field, RoutingTree *tree> fieldToTreeMap;
 };
 
 #endif
