@@ -26,19 +26,19 @@ vector<Node<T> *> RoutingTree<T>::getShardIDs(Range<T> range, Node<T> *parentNod
 		switch (checkRange(range, node, subNode))
 		{
 		//contained in a subRange
-		case '0':
+			case '0':
 			node = subNode;
 			break;
 		//exactly the same as a subRange
-		case '1':
+			case '1':
 			parentNode = node;
 			return vector<Node<T> >(1, node);
 		//no overlap with an subRange
-		case '2':
+			case '2':
 			parentNode = node;
 			return insert(vector<Range<T> >(1, range), node);
 		//overlap with some subRanges
-		default:
+			default:
 			parentNode = node;
 			return insert(splitRange(range, node), node);
 		}
@@ -55,32 +55,47 @@ vector<Range<T> > RoutingTree<T>::splitRange(Range<T> range, Node<T> *parentNode
 	set<Node<T> *> childNodes = parentNode->getChildNodes();
 	set<Node<T> *>::iterator it = childNodes.begin();
 	vector<Range<T> > result;
-    try{
-	for (; it < childNodes.end(); it++){
-		Range<T> curRange = (*it)->getRange;
-		if (range.atLeft(curRange)){
-			result.push(range);
-			break;
-		}
-		else if (range.leftOverlap(curRange)){
-			Range<T> tempResult(range.first, curRange.first); // overlap at the margin
-			result.push(tempResult);
-			break;  
-		}
-		else if (range.contain(curRange)){
-			Range<T> tempResult(range.first, curRange.first); // overlap at the margin
-			result.push(tempResult);
-			range.first = curRange.second;
-		}
-		else{ // right overlap or at right
-			range.first = curRange.second;
+	try{
+		for (; it < childNodes.end(); it++){
+			Range<T> curRange = (*it)->getRange;
+			if (range.atLeft(curRange)){
+				result.push(range);
+				break;
+			}
+			else if (range.leftOverlap(curRange)){
+				Range<T> tempResult(range.first, curRange.first); // overlap at the margin
+				result.push(tempResult);
+				break;  
+			}
+			else if (range.contain(curRange)){
+				if (range.first != curRange.first){
+					Range<T> tempResult(range.first, curRange.first); // overlap at the margin
+					result.push(tempResult);
+				}
+
+				if (range.second != curRange.second){
+					range.first = curRange.second;
+				}
+				else{
+					break;
+				}
+			}
+			else{ // right overlap or at right
+				if (range.first < curRange.second){
+					range.first = curRange.second;
+				}
+			}
 		}
 	}
 
-    }
 	catch (string e){
 		cerr<<e<<endl;
 	}
+
+	if (it == childNodes.end()){
+		result.push_back(range);
+	}
+
 	return result;
 }
 

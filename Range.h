@@ -3,6 +3,9 @@
 
 #include <iostream>
 #include <cstdlib>
+
+using namespace std;
+
 template <class T >
 /*
 Structur of the node in the tree must includes:
@@ -27,6 +30,18 @@ Functions includes:
 			this->second = high;
 		}
 
+		void setRange(T low, T high){
+			if (low  > high){
+				throw "ERROR: Lower bound is larger than upper bound!\n";
+			}
+			this->first = low; 
+			this->second = high;
+		}
+
+		bool single(){
+			return (this->first == this->second);
+		}
+
 		bool isContainedBy(Range *a){
 			return (this->first >= a->first) && (this->second <= a->second);
 		}
@@ -36,7 +51,7 @@ Functions includes:
 		}
 
 		bool leftOverlap(Range *a){
-			return (this->first >= a->first && this->first <= a->second);
+			return (this->first >= a->first && this->second <= a->second);
 		}
 
 		bool rightOverlap(Range *a){
@@ -49,11 +64,16 @@ Functions includes:
 
 	// No Overlap
 		bool atLeft(Range *a){
-			return (this->second < a->first);
+			return (this->second <= a->first);
 		}
 
 		bool atRight(Range *a){
-			return (this->first > a->second);
+			return (this->first >= a->second);
+		}
+
+	// For testing
+		void print(){
+			cout << "(" << this->first << "," << this->second << ")" << endl;
 		}
 	};
 
