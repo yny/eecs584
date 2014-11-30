@@ -100,8 +100,53 @@ vector<Range<T> > RoutingTree<T>::splitRange(Range<T> range, Node<T> *parentNode
 }
 
 template <class T >
-vector<Node<T> *> RoutingTree<T>::insert(vector<Range<T> > subRanges, Node<T> *parentNode){
-	
+vector<Node<T> > RoutingTree<T>::insert(vector<Range<T> > subRanges, Node<T> *parentNode){
+	/*
+	 * Nov 29, Zhou
+	 * After insertion, return all children of parent node
+	 */
+	set<Node<T> *> childNodes = parentNode->getChildNodes();
+	set<Node<T> *>::iterator it = childNodes.begin();
+	vector<Node<T> > result;
+	try{
+
+		while (it < childNodes.end()){
+			Range<T> currentChildRange = (*it)->getRange;
+			if (subRanges.size() != 0){
+				Range<T> currentSubRange = subRanges.front();
+				if (currentSubRange.equals(currentChildRange)){
+					result.push_back(*(it++));
+					continue;
+				}
+				else if (currentSubRange.atLeft(currentChildRange)){
+					Node<T> newNode = new Node<T>(currentSubRange);
+					// How to set the Shards?
+					result.push_back(newNode);
+					subRanges.erase(subRanges.begin());
+					continue;
+				}
+				else if (currentSubRange.atRight(currentChildRange)){
+					result.push_back(*(it++));
+					continue;
+				}
+				else{
+					return NULL;
+				}
+			}
+		}
+
+		if (subRanges.size()){
+			Node<T> newNode = new Node<T>(subRanges.front());
+			// Hoe to set the Shards?
+			result.push_back(newNode);
+		}
+	}
+
+	catch (string e){
+		cerr<<e<<endl;
+	}
+
+	return result;
 }
 
 template <class T >
