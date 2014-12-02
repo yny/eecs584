@@ -13,7 +13,7 @@ vector<Node<T> *> RoutingTree<T>::getShardIDs(Range<T> range, Node<T> *parentNod
 		//create a new root
 		Range<T> newRange(range.first, range.second);
 		Node<T> *newRoot = new Node<T>(newRange);
-		newRoot->subRange.insert(root);
+		newRoot->insertChildNode(root);
 		root = newRoot;
 		
 		parentNode = root;
@@ -37,7 +37,7 @@ vector<Node<T> *> RoutingTree<T>::getShardIDs(Range<T> range, Node<T> *parentNod
 			case '2':
 			parentNode = node;
 			return insert(vector<Range<T> >(1, range), node);
-		//overlap with some subRanges
+		//overlap with more than one subRange
 			default:
 			parentNode = node;
 			return insert(splitRange(range, node), node);
@@ -105,13 +105,11 @@ vector<Node<T> > RoutingTree<T>::insert(vector<Range<T> > subRanges, Node<T> *pa
 	 * Nov 29, Zhou
 	 * After insertion, return all children of parent node
 	 */
-	set<Node<T> *> childNodes = parentNode->getChildNodes();
-	set<Node<T> *>::iterator it = childNodes.begin();
+	vector<Node<T> *> childNodes = parentNode->getChildNodes();
 	vector<Node<T> > result;
 	try{
-
-		while (it < childNodes.end()){
-			Range<T> currentChildRange = (*it)->getRange;
+		for (int i = 0; i < childNodes.size(); i++){
+			Range<T> currentChildRange = childNodes[i]->getRange;
 			if (subRanges.size() != 0){
 				Range<T> currentSubRange = subRanges.front();
 				if (currentSubRange.equals(currentChildRange)){
@@ -154,13 +152,14 @@ int checkRange(Range<T> range, Node<T> *node, Node<T> *subNode) {
 	if (node->subRange.size() == 0) {
 		return 2;
 	}
-	for (int i = 0; i != node.subRange.size() && !range.atRight(node.subRange[i]->range); i++) {
-		if (range.overlap(node.subRange[i]->Range)) {
-			if (range.contain(node.subRange[i]->range) && range.isContainedBy(node.subRange[i]->range)) {
+	vector<Node<T> *> childNodes = node->getChildNodes();
+	for (int i = 0; i != childNodes.size() && !range.atRight(childNodes[i]->range); i++) {
+		if (range.overlap(childNodes[i]->Range)) {
+			if (range.contain(childNodes[i]->range) && range.isContainedBy(childNodes[i]->range)) {
 				return 1;
 			}
-			if (range.contain(node.subRange[i]->range)) {
-				subNode = *iter;
+			if (range.contain(childNodes[i]->range)) {
+				subNode = childNodes[i];
 				return 0;
 			}
 			return 3;
@@ -171,4 +170,3 @@ int checkRange(Range<T> range, Node<T> *node, Node<T> *subNode) {
 
 /* AdaptiveRouting */
 
-#endif
