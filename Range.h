@@ -51,15 +51,17 @@ Functions includes:
 		}
 
 		bool leftOverlap(Range *a){
-			return (this->first >= a->first && this->second <= a->second);
+			return (this->first < a->first && this->second < a->second && this->second > a->first); 
+			// this->second == a->first is not overlap
 		}
 
 		bool rightOverlap(Range *a){
-			return (this->second >= a->first && this->second <= a->second);
+			return (this->second > a->second && this->first > a->first && this->first < a->second);
+			// this->first == a->second is not overlap
 		}
 
 		bool overlap(Range *a){
-			return leftOverlap(a) || rightOverlap(a) || contains(a);
+			return leftOverlap(a) || rightOverlap(a) || contains(a) || isContainedBy(a);
 		}
 
 		bool equals(Range *a){
