@@ -28,6 +28,9 @@ public:
     void insertChildNode(Node *node);
     void merge(Node *node1, Node *node2);
 
+    //For test only
+    void printChildNodes();
+
 private:
     Range<T> range;
     vector<int> shardID;
