@@ -100,43 +100,36 @@ vector<Range<T> > RoutingTree<T>::splitRange(Range<T> range, Node<T> *parentNode
 }
 
 template <class T >
-vector<Node<T> > RoutingTree<T>::insert(vector<Range<T> > subRanges, Node<T> *parentNode){
-	/*
-	 * Nov 29, Zhou
-	 * After insertion, return all children of parent node
-	 */
-	vector<Node<T> *> childNodes = parentNode->getChildNodes();
-	vector<Node<T> > result;
+vector<Node<T> *> RoutingTree<T>::insert(vector<Range<T> > subRanges, Node<T> *parentNode){
+	vector<Node<T> *> childrenNodes = parentNode->getChildNodes();
+	vector<Node<T> *> result;
+	int childrenNodesIndex = 0;
 	try{
-		for (int i = 0; i < childNodes.size(); i++){
-			Range<T> currentChildRange = childNodes[i]->getRange;
-			if (subRanges.size() != 0){
-				Range<T> currentSubRange = subRanges.front();
+
+		for (int i = 0; i < subRanges.size(); i++)
+		{
+			Range<T> currentSubRange = subRanges[i];
+			if (childrenNodesIndex < childrenNodes.size())
+			{
+				Range<T> currentChildRange = childrenNodes[childrenNodesIndex]->getRange;
 				if (currentSubRange.equals(currentChildRange)){
-					result.push_back(*(it++));
-					continue;
+						result.push_back(*childrenNodes[childrenNodesIndex++]);
+						continue;
 				}
 				else if (currentSubRange.atLeft(currentChildRange)){
 					Node<T> newNode = new Node<T>(currentSubRange);
-					// How to set the Shards?
-					result.push_back(newNode);
-					subRanges.erase(subRanges.begin());
-					continue;
-				}
-				else if (currentSubRange.atRight(currentChildRange)){
-					result.push_back(*(it++));
+					result.push_back(*newNode);
 					continue;
 				}
 				else{
 					return NULL;
 				}
 			}
-		}
-
-		if (subRanges.size()){
-			Node<T> newNode = new Node<T>(subRanges.front());
-			// Hoe to set the Shards?
-			result.push_back(newNode);
+			else
+			{
+				Node<T> newNode = new Node<T>(currentSubRange);
+				result.push_back(*newNode);
+			}
 		}
 	}
 
