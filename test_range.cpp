@@ -22,7 +22,7 @@ int main(){
 	while (1){
 		cin >> q.first >> q.second;
 		if (q.first > q.second){break;}
-		cout << q.overlap(&p)<<endl;
+		cout << q.overlap(p)<<endl;
 	}
 	//result = splitRange(p, childRanges);
 
@@ -39,16 +39,16 @@ vector<Range<int> > splitRange(Range<int> range, vector<Range<int> > childRanges
     try{
 	for (; it < childRanges.end(); it++){
 		Range<int> curRange = (*it);
-		if (range.atLeft(&curRange)){
+		if (range.atLeft(curRange)){
 			result.push_back(range);
 			break;
 		}
-		else if (range.leftOverlap(&curRange)){
+		else if (range.leftOverlap(curRange)){
 			Range<int> tempResult(range.first, curRange.first); // overlap at the margin
 			result.push_back(tempResult);
 			break;  
 		}
-		else if (range.contains(&curRange)){
+		else if (range.contains(curRange)){
 			if (range.first != curRange.first){
 				Range<int> tempResult(range.first, curRange.first); // overlap at the margin
 				result.push_back(tempResult);

@@ -42,39 +42,39 @@ Functions includes:
 			return (this->first == this->second);
 		}
 
-		bool isContainedBy(Range *a){
-			return (this->first >= a->first) && (this->second <= a->second);
+		bool isContainedBy(Range a){
+			return (this->first >= a.first) && (this->second <= a.second);
 		}
 
-		bool contains(Range *a){
-			return (this->first <= a->first) && (this->second >= a->second);
+		bool contains(Range a){
+			return (this->first <= a.first) && (this->second >= a.second);
 		}
 
-		bool leftOverlap(Range *a){
-			return (this->first < a->first && this->second < a->second && this->second > a->first); 
-			// this->second == a->first is not overlap
+		bool leftOverlap(Range a){
+			return (this->first < a.first && this->second < a.second && this->second > a.first); 
+			// this->second == a.first is not overlap
 		}
 
-		bool rightOverlap(Range *a){
-			return (this->second > a->second && this->first > a->first && this->first < a->second);
-			// this->first == a->second is not overlap
+		bool rightOverlap(Range a){
+			return (this->second > a.second && this->first > a.first && this->first < a.second);
+			// this->first == a.second is not overlap
 		}
 
-		bool overlap(Range *a){
+		bool overlap(Range a){
 			return leftOverlap(a) || rightOverlap(a) || contains(a) || isContainedBy(a);
 		}
 
-		bool equals(Range *a){
-			return (this->first == a->first && this->second == a->second);
+		bool equals(Range a){
+			return (this->first == a.first && this->second == a.second);
 		}
 
 	// No Overlap
-		bool atLeft(Range *a){
-			return (this->second <= a->first);
+		bool atLeft(Range a){
+			return (this->second <= a.first);
 		}
 
-		bool atRight(Range *a){
-			return (this->first >= a->second);
+		bool atRight(Range a){
+			return (this->first >= a.second);
 		}
 
 	// For testing
