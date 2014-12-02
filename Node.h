@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <vector>
-#include <set>
 #include "Range.h"
 
 using namespace std;
@@ -23,7 +22,7 @@ public:
     Node(Range<T> range);
     Range<T> getRange();
     vector<int> getShards();
-    set<Node *> getChildNodes();
+    vector<Node *> getChildNodes();
     void setShards(vector<int> shards);
     static bool canMerge(Node *node1, Node *node2);
     void insert(Node *node);
@@ -32,7 +31,7 @@ public:
 private:
     Range<T> range;
     vector<int> shardID;
-    set<Node *> childNodes;
+    vector<Node *> childNodes;
 };
 
 #endif

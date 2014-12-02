@@ -52,12 +52,12 @@ Node<T> *RoutingTree<T>::search(Range<T> range){
 
 template <class T >
 vector<Range<T> > RoutingTree<T>::splitRange(Range<T> range, Node<T> *parentNode){
-	set<Node<T> *> childNodes = parentNode->getChildNodes();
-	set<Node<T> *>::iterator it = childNodes.begin();
+	vector<Node<T> *> childNodes = parentNode->getChildNodes();
 	vector<Range<T> > result;
+	int i = 0;
 	try{
-		for (; it < childNodes.end(); it++){
-			Range<T> curRange = (*it)->getRange;
+		for (; i < childNodes.size(); i++){
+			Range<T> curRange = childNodes[i]->getRange;
 			if (range.atLeft(curRange)){
 				result.push(range);
 				break;
@@ -92,7 +92,7 @@ vector<Range<T> > RoutingTree<T>::splitRange(Range<T> range, Node<T> *parentNode
 		cerr<<e<<endl;
 	}
 
-	if (it == childNodes.end()){
+	if (i == childNodes.size()){
 		result.push_back(range);
 	}
 
@@ -109,13 +109,12 @@ int checkRange(Range<T> range, Node<T> *node, Node<T> *subNode) {
 	if (node->subRange.size() == 0) {
 		return 2;
 	}
-	set<Node<T> *>::iterator iter;
-	for (iter = node.subRange.begin(); iter != node.subRange.end() && !range.atRight((*iter)->range); iter++) {
-		if (range.overlap((*iter)->Range)) {
-			if (range.contain((*iter)->range) && range.isContainedBy((*iter)->range)) {
+	for (int i = 0; i != node.subRange.size() && !range.atRight(node.subRange[i]->range); i++) {
+		if (range.overlap(node.subRange[i]->Range)) {
+			if (range.contain(node.subRange[i]->range) && range.isContainedBy(node.subRange[i]->range)) {
 				return 1;
 			}
-			if (range.contain((*iter)->range)) {
+			if (range.contain(node.subRange[i]->range)) {
 				subNode = *iter;
 				return 0;
 			}
