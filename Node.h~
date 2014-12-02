@@ -23,7 +23,7 @@ public:
     Range<T> getRange();
     vector<int> getShards();
     void setShards(vector<int> shards);
-    vector<Node<T> *> getChildNodes(){return childNodes;}
+    vector<Node<T> *> getChildNodes();
     void insertChildNode(Node<T> *node);
     static bool canMerge(Node<T> *node1, Node<T> *node2);
     void merge(Node<T> *node1, Node<T> *node2);

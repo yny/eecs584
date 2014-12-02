@@ -1,5 +1,5 @@
 out: Range.h RoutingTree.o Node.o
-	g++ -o out.o test_range.cpp 
+	g++ -o test_search test_search.cpp 
 
 test_range: Range.h
 	g++ -o out.o test_range.cpp 

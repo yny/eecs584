@@ -21,9 +21,8 @@ vector<Node<T> *> RoutingTree<T>::getShardIDs(Range<T> range, Node<T> **parentNo
 		
 		if (overlap) {
 			return insert(splitRange(range, root), root);
-		} else {
-			return insert(vector<Range<T> >(1, range), root);
 		}
+		return insert(vector<Range<T> >(1, range), root);
 	}
 	
 	Node<T> *node = root;
