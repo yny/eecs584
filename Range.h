@@ -62,6 +62,10 @@ Functions includes:
 			return leftOverlap(a) || rightOverlap(a) || contains(a);
 		}
 
+		bool equals(Range *a){
+			return (this->first == a->first && this->second == a->second);
+		}
+
 	// No Overlap
 		bool atLeft(Range *a){
 			return (this->second <= a->first);

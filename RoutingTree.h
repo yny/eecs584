@@ -16,7 +16,7 @@ private:
     Node<T> *root;
     Node<T> *search(Range<T> range); // -> return pointer of Parent Node
     vector<Range<T> > splitRange(Range<T> range, Node<T> *parentNode);
-    vector<Node<T> *> insert(vector<Range<T> > subRanges, Node<T> *parentNode);
+    vector<Node<T> > insert(vector<Range<T> > subRanges, Node<T> *parentNode);
     int checkRange(Range<T> range, Node<T> *node, Node<T> *subNode);
 };
 
