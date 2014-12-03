@@ -29,18 +29,18 @@ vector<Node<T> *> RoutingTree<T>::getShardIDs(Range<T> range, Node<T> **parentNo
 	Node<T> *node = root;
 	while (1) {
 		Node<T> *subNode = NULL;
-		switch (checkRange(range, node, subNode))
+		switch (checkRange(range, node, &subNode))
 		{
 		//contained in a subRange
-			case '0':
+			case 0:
 			node = subNode;
 			break;
 		//exactly the same as a subRange
-			case '1':
+			case 1:
 			*parentNode = node;
 			return vector<Node<T> *>(1, node);
 		//no overlap with an subRange
-			case '2':
+			case 2:
 			*parentNode = node;
 			return insert(vector<Range<T> >(1, range), node);
 		//overlap with more than one subRange
@@ -149,19 +149,19 @@ vector<Node<T> *> RoutingTree<T>::insert(vector<Range<T> > subRanges, Node<T> *p
 }
 
 template <class T >
-int RoutingTree<T>::checkRange(Range<T> range, Node<T> *node, Node<T> *subNode) {
+int RoutingTree<T>::checkRange(Range<T> range, Node<T> *node, Node<T> **subNode) {
 	vector<Node<T> *> childNodes = node->getChildNodes();
 	if (childNodes.size() == 0) {
 		return 2;
 	}
 	
-	for (int i = 0; i != childNodes.size() && !range.atRight(childNodes[i]->getRange()); i++) {
+	for (int i = 0; i < childNodes.size() && !range.atRight(childNodes[i]->getRange()); i++) {
 		if (range.overlap(childNodes[i]->getRange())) {
 			if (range.contains(childNodes[i]->getRange()) && range.isContainedBy(childNodes[i]->getRange())) {
 				return 1;
 			}
-			if (range.contains(childNodes[i]->getRange())) {
-				subNode = childNodes[i];
+			if (range.isContainedBy(childNodes[i]->getRange())) {
+				*subNode = childNodes[i];
 				return 0;
 			}
 			return 3;
