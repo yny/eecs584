@@ -78,7 +78,7 @@ Functions includes:
 		}
 		
 		Range merge(Range a){
-			return Range(min(this->first, a.first), max(this->second, a.second));
+			return Range(min(this->first, a.first), max(this->second), a.second));
 		}
 
 	// For testing
