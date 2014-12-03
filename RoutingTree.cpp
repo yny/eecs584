@@ -46,7 +46,12 @@ vector<Node<T> *> RoutingTree<T>::getShardIDs(Range<T> range, Node<T> **parentNo
 		//overlap with more than one subRange
 			default:
 			*parentNode = node;
-			return insert(splitRange(range, node), node);
+			vector<Range<T> > ranges = splitRange(range, node);
+			if (ranges.size()) {
+				return insert(ranges, node);
+			} else {
+				return vector<Node<T> *>();
+			}
 		}
 	}
 } // -> return result node
