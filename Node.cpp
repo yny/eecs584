@@ -41,10 +41,10 @@ void Node<T>::insertChildNode(Node *node){
 	vector<Node *> newChildNodes(this->childNodes.size() + 1);
 	for (; i < this->childNodes.size(); j++){
 		Range<T> curRange = this->childNodes[i]->getRange();
-		if (range.overlap(&curRange)){
+		if (range.overlap(curRange)){
 			cerr << "ERROR: Ranges have overlap!\n";
 		}
-		if (range.atLeft(&curRange) && !insert_flag){
+		if (range.atLeft(curRange) && !insert_flag){
 			newChildNodes[j] = node;
 			insert_flag = true;
 			cout<<"flag set"<<endl;
