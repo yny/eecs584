@@ -22,11 +22,11 @@ public:
     Node(Range<T> range);
     Range<T> getRange();
     vector<int> getShards();
-    vector<Node *> getChildNodes();
+    vector<Node<T> *> getChildNodes(){return childNodes;}
     void setShards(vector<int> shards);
-    static bool canMerge(Node *node1, Node *node2);
-    void insertChildNode(Node *node);
-    void merge(Node *node1, Node *node2);
+    static bool canMerge(Node<T> *node1, Node<T> *node2);
+    void insertChildNode(Node<T> *node);
+    void merge(Node<T> *node1, Node<T> *node2);
 
     //For test only
     void printChildNodes();
@@ -34,7 +34,7 @@ public:
 private:
     Range<T> range;
     vector<int> shardID;
-    vector<Node *> childNodes;
+    vector<Node<T> *> childNodes;
 };
 
 #endif
