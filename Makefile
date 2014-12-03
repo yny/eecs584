@@ -1,8 +1,8 @@
 out: Range.h RoutingTree.o Node.o
-	g++ -o out.o test_range.cpp 
+	g++ -o out.o test_insert.cpp 
 
 test_range: Range.h
-	g++ -o out.o test_range.cpp 
+	g++ -o out.o test_insert.cpp 
 
 test_node: Node.o
 	g++ -Wall test_node.cpp -o out
