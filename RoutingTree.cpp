@@ -204,7 +204,7 @@ int RoutingTree<T>::checkRange(Range<T> range, Node<T> *node, Node<T> **subNode)
 		return 2;
 	}
 	
-	for (int i = 0; i < childNodes.size() && !range.atRight(childNodes[i]->getRange()); i++) {
+	for (int i = 0; i < childNodes.size(); i++) {
 		if (range.overlap(childNodes[i]->getRange())) {
 			if (range.contains(childNodes[i]->getRange()) && range.isContainedBy(childNodes[i]->getRange())) {
 				return 1;
