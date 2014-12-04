@@ -23,26 +23,19 @@ int main(){
 	subRanges.push_back(r1);
 	subRanges.push_back(r2);
 	subRanges.push_back(r3);
-	Node<int> *n = new Node<int>(r0);
-	vector<Node<int> *> myResult = TreeInsert(subRanges, n);
+	Node<int> *root = new Node<int>(r0);
+	Node<int> *nodeA = new Node<int>(r2);
+	root -> insertChildNode(nodeA);
+	root -> printChildNodes();
+	vector<Node<int> *> myResult = TreeInsert(subRanges, root);
 }
 
 template<class T>
 vector<Node<T> *> TreeInsert(vector<Range<T> > subRanges, Node<T> *parentNode){
-	/*
-	vector<Node<T> *> childrenNodes = parentNode->getChildNodes();
-	Range<T> r = subRanges.front();
-	Node<T> *newNode = new Node<T>(r);
-	vector<Node<T> *> result;
-	result.push_back(newNode);
-	newNode->printChildNodes();
-	parentNode -> printChildNodes();
-	return result;
-	*/
 	Range<T> parentNodeRange = parentNode->getRange();
 	vector<Node<T> *> childrenNodes = parentNode->getChildNodes();
 	vector<Node<T> *> result;
-	int childrenNodesIndex = 0;
+	int childrenNodesIndex = 0, subRangeIndex = 0;
 	cout << "parentNode before insertion: ... \n";
 	DisplayCoveredRanges(parentNode);
 	parentNode->printChildNodes();
@@ -69,33 +62,37 @@ vector<Node<T> *> TreeInsert(vector<Range<T> > subRanges, Node<T> *parentNode){
 			}	
 		}
 		/* Insertion */
-		for (int i = 0; i < subRanges.size(); i++)
+		for (; childrenNodesIndex < childrenNodes.size(); childrenNodesIndex++)
 		{
-			Range<T> currentSubRange = subRanges.at(i);
-			if (childrenNodesIndex < childrenNodes.size())
+			Range<T> currentChildRange = (childrenNodes.at(childrenNodesIndex))->getRange();
+			Range<T> currentSubRange = subRanges.at(subRangeIndex);
+			if (currentChildRange.atLeft(currentSubRange))
 			{
-				Range<T> currentChildRange = (childrenNodes.at(childrenNodesIndex))->getRange();
-				if (currentSubRange.equals(currentChildRange)){
-						result.push_back(childrenNodes.at(childrenNodesIndex++));
-						continue;
-				}
-				else if (currentSubRange.atLeft(currentChildRange)){
-					Node<T> *newNode = new Node<T>(currentSubRange);
-					parentNode->insertChildNode(newNode);
-					result.push_back(newNode);
-					continue;
-				}
-				else{
-					cout << "ERROR! OVERLAPPING IN SPLITTED RANGES!" ;
-					return result;
-				}
+				result.push_back(childrenNodes.at(childrenNodesIndex));
 			}
-			else
+			else if (currentSubRange.atLeft(currentChildRange))
 			{
 				Node<T> *newNode = new Node<T>(currentSubRange);
 				parentNode->insertChildNode(newNode);
 				result.push_back(newNode);
+				result.push_back(childrenNodes.at(childrenNodesIndex));
+				subRangeIndex += 2;
 			}
+			else if (currentSubRange.equals(currentChildRange))
+			{
+				result.push_back(childrenNodes.at(childrenNodesIndex));
+				subRangeIndex++;
+			}
+			else
+			{
+				throw "Error:possible overlapping! \n";
+			}
+		}
+		if (subRangeIndex < subRanges.size())
+		{
+			Node<T> *newNode = new Node<T>(subRanges.at(subRangeIndex));
+			parentNode->insertChildNode(newNode);
+			result.push_back(newNode);
 		}
 	}
 

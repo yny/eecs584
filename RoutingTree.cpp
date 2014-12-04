@@ -109,42 +109,76 @@ vector<Range<T> > RoutingTree<T>::splitRange(Range<T> range, Node<T> *parentNode
 
 template <class T >
 vector<Node<T> *> RoutingTree<T>::insert(vector<Range<T> > subRanges, Node<T> *parentNode){
+	Range<T> parentNodeRange = parentNode->getRange();
 	vector<Node<T> *> childrenNodes = parentNode->getChildNodes();
 	vector<Node<T> *> result;
-	int childrenNodesIndex = 0;
+	int childrenNodesIndex = 0, subRangeIndex = 0;
+	cout << "parentNode before insertion: ... \n";
+	DisplayCoveredRanges(parentNode);
+	parentNode->printChildNodes();
 	try{
-
+		/* Error Handling Section */
+		if (subRanges.size() == 0)
+		{
+			throw "ERROR: no subranges need to be inserted!\n";
+		}
 		for (int i = 0; i < subRanges.size(); i++)
 		{
-			Range<T> currentSubRange = subRanges[i];
-			if (childrenNodesIndex < childrenNodes.size())
+			Range<T> currentSubRange = subRanges.at(i);
+			if (!parentNodeRange.contains(currentSubRange))
 			{
-				Range<T> currentChildRange = childrenNodes[childrenNodesIndex]->getRange;
-				if (currentSubRange.equals(currentChildRange)){
-						result.push_back(*childrenNodes[childrenNodesIndex++]);
-						continue;
+				throw "ERROR: One or more splitted subrange exceeded the parent range! \n";
+			}
+			for (int j = i + 1; j < subRanges.size(); j++)
+			{
+				Range<T> rangeToBeChecked = subRanges.at(j);
+				if (currentSubRange.overlap(rangeToBeChecked))
+				{
+					throw "ERROR: overlap in subranges! \n";
 				}
-				else if (currentSubRange.atLeft(currentChildRange)){
-					Node<T> newNode = new Node<T>(currentSubRange);
-					result.push_back(*newNode);
-					continue;
-				}
-				else{
-					return NULL;
-				}
+			}	
+		}
+		/* Insertion */
+		for (; childrenNodesIndex < childrenNodes.size(); childrenNodesIndex++)
+		{
+			Range<T> currentChildRange = (childrenNodes.at(childrenNodesIndex))->getRange();
+			Range<T> currentSubRange = subRanges.at(subRangeIndex);
+			if (currentChildRange.atLeft(currentSubRange))
+			{
+				result.push_back(childrenNodes.at(childrenNodesIndex));
+			}
+			else if (currentSubRange.atLeft(currentChildRange))
+			{
+				Node<T> *newNode = new Node<T>(currentSubRange);
+				parentNode->insertChildNode(newNode);
+				result.push_back(newNode);
+				result.push_back(childrenNodes.at(childrenNodesIndex));
+				subRangeIndex += 2;
+			}
+			else if (currentSubRange.equals(currentChildRange))
+			{
+				result.push_back(childrenNodes.at(childrenNodesIndex));
+				subRangeIndex++;
 			}
 			else
 			{
-				Node<T> newNode = new Node<T>(currentSubRange);
-				result.push_back(*newNode);
+				throw "Error:possible overlapping! \n";
 			}
+		}
+		if (subRangeIndex < subRanges.size())
+		{
+			Node<T> *newNode = new Node<T>(subRanges.at(subRangeIndex));
+			parentNode->insertChildNode(newNode);
+			result.push_back(newNode);
 		}
 	}
 
 	catch (string e){
 		cerr<<e<<endl;
 	}
-
+	cout << "After Insertion: ... \n";
+	DisplayCoveredRanges(parentNode);
+	parentNode -> printChildNodes();
 	return result;
 }
 
