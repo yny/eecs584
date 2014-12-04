@@ -7,7 +7,7 @@
 
 struct Cmp {
     bool operator() (const Node& node1, const Node& node2) const {
-        if node1.getRange().overLap(node2.getRange){
+        if node1.getRange().overLap(node2.getRange()){
             throw "ERROR: Two ranges have overlap. Failed to compare!\n";
         }
         return node1.getRange().atLeft(node2.getRange());
