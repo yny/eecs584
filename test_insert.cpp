@@ -15,17 +15,23 @@ void DisplayCoveredRanges(Node<T> * node){
 }
 
 int main(){
-	Range<int> r0 = Range<int>(1, 10);
+	Range<int> r0 = Range<int>(1, 15);
 	Range<int> r1 = Range<int>(1, 2);
 	Range<int> r2 = Range<int>(4, 5);
 	Range<int> r3 = Range<int>(6, 7);
+	Range<int> r4 = Range<int>(8, 9);
+	Range<int> r5 = Range<int>(11, 12);
 	vector<Range<int> > subRanges;
-	subRanges.push_back(r1);
-	subRanges.push_back(r2);
-	subRanges.push_back(r3);
+	//subRanges.push_back(r1);
+	//subRanges.push_back(r2);
+	//subRanges.push_back(r3);
+	//subRanges.push_back(r4);
+	subRanges.push_back(r5);
 	Node<int> *root = new Node<int>(r0);
 	Node<int> *nodeA = new Node<int>(r2);
+	Node<int> *nodeB = new Node<int>(r4);
 	root -> insertChildNode(nodeA);
+	root -> insertChildNode(nodeB);
 	root -> printChildNodes();
 	vector<Node<int> *> myResult = TreeInsert(subRanges, root);
 }
@@ -76,7 +82,17 @@ vector<Node<T> *> TreeInsert(vector<Range<T> > subRanges, Node<T> *parentNode){
 				parentNode->insertChildNode(newNode);
 				result.push_back(newNode);
 				result.push_back(childrenNodes.at(childrenNodesIndex));
-				subRangeIndex += 2;
+				if (++subRangeIndex < subRanges.size())
+				{
+					if ((subRanges.at(subRangeIndex)).equals(currentChildRange))
+					{
+						subRangeIndex++;
+					}
+				}
+				else
+				{
+					break;
+				}
 			}
 			else if (currentSubRange.equals(currentChildRange))
 			{

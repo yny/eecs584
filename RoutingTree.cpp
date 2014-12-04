@@ -153,7 +153,17 @@ vector<Node<T> *> RoutingTree<T>::insert(vector<Range<T> > subRanges, Node<T> *p
 				parentNode->insertChildNode(newNode);
 				result.push_back(newNode);
 				result.push_back(childrenNodes.at(childrenNodesIndex));
-				subRangeIndex += 2;
+				if (++subRangeIndex < subRanges.size())
+				{
+					if ((subRanges.at(subRangeIndex)).equals(currentChildRange))
+					{
+						subRangeIndex++;
+					}
+				}
+				else
+				{
+					break;
+				}
 			}
 			else if (currentSubRange.equals(currentChildRange))
 			{
