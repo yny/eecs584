@@ -12,12 +12,12 @@ Range<T> Node<T>::getRange(){
 }
 
 template <class T>
-vector<int> Node<T>::getShards(){
+vector<T> Node<T>::getShards(){
 	return this->shardID;
 }
 
 template <class T>
-void Node<T>::setShards(vector<int> shards){
+void Node<T>::setShards(vector<T> shards){
 	this->shardID = shards;
 }
 
@@ -73,5 +73,11 @@ void Node<T>::printChildNodes(){
 	for (int i = 0; i < this->childNodes.size(); i ++){
 		//this->childNodes[i]->getRange();
 		this->childNodes[i]->getRange().print();
+		vector<T> shardIDs = this->childNodes[i]->getShards();
+		cout << "--> ";
+		for (int j = 0; j < shardIDs.size(); j++){
+			cout << shardIDs[j] << " ";
+		}
+		cout<<endl;
 	}
 }

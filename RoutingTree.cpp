@@ -67,18 +67,18 @@ vector<Range<T> > RoutingTree<T>::splitRange(Range<T> range, Node<T> *parentNode
 		for (; i < childNodes.size(); i++){
 			Range<T> curRange = childNodes[i]->getRange();
 			if (range.atLeft(curRange)){
-				result.push(range);
+				result.push_back(range);
 				break;
 			}
 			else if (range.leftOverlap(curRange)){
 				Range<T> tempResult(range.first, curRange.first); // overlap at the margin
-				result.push(tempResult);
+				result.push_back(tempResult);
 				break;  
 			}
-			else if (range.contain(curRange)){
+			else if (range.contains(curRange)){
 				if (range.first != curRange.first){
 					Range<T> tempResult(range.first, curRange.first); // overlap at the margin
-					result.push(tempResult);
+					result.push_back(tempResult);
 				}
 
 				if (range.second != curRange.second){
@@ -114,7 +114,7 @@ vector<Node<T> *> RoutingTree<T>::insert(vector<Range<T> > subRanges, Node<T> *p
 	vector<Node<T> *> result;
 	int childrenNodesIndex = 0, subRangeIndex = 0;
 	cout << "parentNode before insertion: ... \n";
-	DisplayCoveredRanges(parentNode);
+	//DisplayCoveredRanges(parentNode);
 	parentNode->printChildNodes();
 	try{
 		/* Error Handling Section */
@@ -145,14 +145,14 @@ vector<Node<T> *> RoutingTree<T>::insert(vector<Range<T> > subRanges, Node<T> *p
 			Range<T> currentSubRange = subRanges.at(subRangeIndex);
 			if (currentChildRange.atLeft(currentSubRange))
 			{
-				result.push_back(childrenNodes.at(childrenNodesIndex));
+				//result.push_back(childrenNodes.at(childrenNodesIndex));
 			}
 			else if (currentSubRange.atLeft(currentChildRange))
 			{
 				Node<T> *newNode = new Node<T>(currentSubRange);
 				parentNode->insertChildNode(newNode);
 				result.push_back(newNode);
-				result.push_back(childrenNodes.at(childrenNodesIndex));
+				//result.push_back(childrenNodes.at(childrenNodesIndex));
 				if (++subRangeIndex < subRanges.size())
 				{
 					if ((subRanges.at(subRangeIndex)).equals(currentChildRange))
@@ -167,7 +167,7 @@ vector<Node<T> *> RoutingTree<T>::insert(vector<Range<T> > subRanges, Node<T> *p
 			}
 			else if (currentSubRange.equals(currentChildRange))
 			{
-				result.push_back(childrenNodes.at(childrenNodesIndex));
+				//result.push_back(childrenNodes.at(childrenNodesIndex));
 				subRangeIndex++;
 			}
 			else
@@ -187,8 +187,8 @@ vector<Node<T> *> RoutingTree<T>::insert(vector<Range<T> > subRanges, Node<T> *p
 		cerr<<e<<endl;
 	}
 	cout << "After Insertion: ... \n";
-	DisplayCoveredRanges(parentNode);
-	parentNode -> printChildNodes();
+	//DisplayCoveredRanges(parentNode);
+	//parentNode -> printChildNodes();
 	return result;
 }
 
