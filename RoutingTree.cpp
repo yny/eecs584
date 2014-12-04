@@ -80,6 +80,9 @@ vector<Range<T> > RoutingTree<T>::splitRange(Range<T> range, Node<T> *parentNode
 				result.push_back(tempResult);
 				break;  
 			}
+			else if (range.isContainedBy(curRange)){
+				break;
+			}
 			else if (range.contains(curRange)){
 				if (range.first != curRange.first){
 					Range<T> tempResult(range.first, curRange.first); // overlap at the margin
