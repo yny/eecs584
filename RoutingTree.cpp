@@ -128,21 +128,21 @@ vector<Node<T> *> RoutingTree<T>::insert(vector<Range<T> > subRanges, Node<T> *p
 		/* Error Handling Section */
 		if (subRanges.size() == 0)
 		{
-			throw "ERROR: no subranges need to be inserted!\n";
+			cerr << "ERROR: no subranges need to be inserted!\n";
 		}
 		for (int i = 0; i < subRanges.size(); i++)
 		{
 			Range<T> currentSubRange = subRanges.at(i);
 			if (!parentNodeRange.contains(currentSubRange))
 			{
-				throw "ERROR: One or more splitted subrange exceeded the parent range! \n";
+				cerr << "ERROR: One or more splitted subrange exceeded the parent range! \n";
 			}
 			for (int j = i + 1; j < subRanges.size(); j++)
 			{
 				Range<T> rangeToBeChecked = subRanges.at(j);
 				if (currentSubRange.overlap(rangeToBeChecked))
 				{
-					throw "ERROR: overlap in subranges! \n";
+					cerr << "ERROR: overlap in subranges! \n";
 				}
 			}	
 		}
@@ -180,7 +180,7 @@ vector<Node<T> *> RoutingTree<T>::insert(vector<Range<T> > subRanges, Node<T> *p
 			}
 			else
 			{
-				throw "Error:possible overlapping! \n";
+				cerr << "Error:possible overlapping! \n";
 			}
 		}
 		if (subRangeIndex < subRanges.size())
