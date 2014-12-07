@@ -10,20 +10,11 @@ template <class T >
 vector<Node<T> *> RoutingTree<T>::getShardIDs(Range<T> range, Node<T> **parentNode) {
 	//range not contained in the root
 	if (!root->getRange().contains(range)) {
-		bool overlap = root->getRange().overlap(range);
-		
 		//create a new root
 		Range<T> newRange = root->getRange().merge(range);
 		Node<T> *newRoot = new Node<T>(newRange);
 		newRoot->insertChildNode(root);
 		root = newRoot;
-		*parentNode = root;
-		
-		if (overlap) {
-			return insert(splitRange(range, root), root);
-		} else {
-			return insert(vector<Range<T> >(1, range), root);
-		}
 	}
 	
 	Node<T> *node = root;
@@ -128,21 +119,21 @@ vector<Node<T> *> RoutingTree<T>::insert(vector<Range<T> > subRanges, Node<T> *p
 		/* Error Handling Section */
 		if (subRanges.size() == 0)
 		{
-			throw "ERROR: no subranges need to be inserted!\n";
+			cerr << "ERROR: no subranges need to be inserted!\n";
 		}
 		for (int i = 0; i < subRanges.size(); i++)
 		{
 			Range<T> currentSubRange = subRanges.at(i);
 			if (!parentNodeRange.contains(currentSubRange))
 			{
-				throw "ERROR: One or more splitted subrange exceeded the parent range! \n";
+				cerr << "ERROR: One or more splitted subrange exceeded the parent range! \n";
 			}
 			for (int j = i + 1; j < subRanges.size(); j++)
 			{
 				Range<T> rangeToBeChecked = subRanges.at(j);
 				if (currentSubRange.overlap(rangeToBeChecked))
 				{
-					throw "ERROR: overlap in subranges! \n";
+					cerr << "ERROR: overlap in subranges! \n";
 				}
 			}	
 		}
@@ -180,7 +171,7 @@ vector<Node<T> *> RoutingTree<T>::insert(vector<Range<T> > subRanges, Node<T> *p
 			}
 			else
 			{
-				throw "Error:possible overlapping! \n";
+				cerr << "Error:possible overlapping! \n";
 			}
 		}
 		if (subRangeIndex < subRanges.size())
@@ -207,7 +198,7 @@ int RoutingTree<T>::checkRange(Range<T> range, Node<T> *node, Node<T> **subNode)
 		return 2;
 	}
 	
-	for (int i = 0; i < childNodes.size() && !range.atRight(childNodes[i]->getRange()); i++) {
+	for (int i = 0; i < childNodes.size(); i++) {
 		if (range.overlap(childNodes[i]->getRange())) {
 			if (range.contains(childNodes[i]->getRange()) && range.isContainedBy(childNodes[i]->getRange())) {
 				return 1;
