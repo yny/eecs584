@@ -10,20 +10,11 @@ template <class T >
 vector<Node<T> *> RoutingTree<T>::getShardIDs(Range<T> range, Node<T> **parentNode) {
 	//range not contained in the root
 	if (!root->getRange().contains(range)) {
-		bool overlap = root->getRange().overlap(range);
-		
 		//create a new root
 		Range<T> newRange = root->getRange().merge(range);
 		Node<T> *newRoot = new Node<T>(newRange);
 		newRoot->insertChildNode(root);
 		root = newRoot;
-		*parentNode = root;
-		
-		if (overlap) {
-			return insert(splitRange(range, root), root);
-		} else {
-			return insert(vector<Range<T> >(1, range), root);
-		}
 	}
 	
 	Node<T> *node = root;
