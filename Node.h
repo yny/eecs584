@@ -25,8 +25,6 @@ public:
     void setShards(vector<T> shards);
     vector<Node<T> *> getChildNodes(){return childNodes;}
     void insertChildNode(Node<T> *node);
-    static bool canMerge(Node<T> *node1, Node<T> *node2);
-    void merge(Node<T> *node1, Node<T> *node2);
 
     //For test only
     void printChildNodes();

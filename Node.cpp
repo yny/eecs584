@@ -22,11 +22,6 @@ void Node<T>::setShards(vector<T> shards){
 }
 
 template <class T>
-bool Node<T>::canMerge(Node *node1, Node *node2){
-
-}
-
-template <class T>
 void Node<T>::insertChildNode(Node *node){
 	int i = 0;
 	int j = 0;
@@ -60,11 +55,6 @@ void Node<T>::insertChildNode(Node *node){
 	}
 	
 	this->childNodes = newChildNodes;
-}
-
-template <class T>
-void Node<T>::merge(Node<T> *node1, Node<T> *node2){
-
 }
 
 template <class T>
