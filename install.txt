@@ -1,0 +1,20 @@
+1. MongoDB Configuration
+MongoDB source code is available on GitHub. We are working on MongoDB server.
+Clone URL : https://github.com/mongodb/mongo.git
+
+On Linux, you will need to install a compiler gcc or clang, as well as glibc headers which are usually included in a package named glibc-devel.
+
+    On Debian and Ubuntu systems, you must install the libssl-dev package to compile with SSL support.
+    On Red Hat and CentOS systems, you must install the openssl-devel package to compile with SSL support.
+
+On Mac OS X, you will need to install XCode, specifically the command line tools.
+
+On Windows, you will need to install Visual Studio 2010 or later. When running on Windows machines, it is recommended to install either pywin32 or ActivePython if you wish to do parallel builds.
+
+Build MongoDB With Scons: You will need to pass SCons multiple targets:
+
+    scons mongod mongo mongos
+
+Building can take a while, depending on which target(s) you are building and the capabilities of your computer.
+
+2. Test out ART seperately: See readme.txt
